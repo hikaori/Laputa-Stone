@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,22 +31,20 @@ import static android.R.attr.data;
 import static android.R.attr.name;
 
 public class Main_Activity extends Activity implements PlaceSelectionListener {
-    ImageView mbtn;
-    Button mbtn2;
+    ImageView mLaputaBtn;
+    Button mPlacePickerBtn;
 
     private final int PLACE_PICKER_REQUEST = 1;
+    private String mSelectedPlaceName;
+    private LatLng mSelectedLatLong;
 
-    //    public static final String LatLocationKey ="LatLocationKey";
-    public static final String LngLocationKey = "LngLocationKey";
-
-    private String mAdressSelected;
+    private String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
 
         // Retrieve the PlaceAutocompleteFragment.
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
@@ -53,33 +54,22 @@ public class Main_Activity extends Activity implements PlaceSelectionListener {
         // occurred.
         autocompleteFragment.setOnPlaceSelectedListener(this);
 
-
-        mbtn = (ImageView) findViewById(R.id.btn);
-        mbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                double[] latlng = getLocationFromPlaceName(Main_Activity.this, mAdressSelected);
-                if(hasAddress(latlng)==false){
-                    TextView maddressErrorMSG =(TextView) findViewById(R.id.addressErrorMSG);
-                    maddressErrorMSG.setText("Please Serect more specific place");
-                }
-                else {
-                double lat = latlng[0];
-                double lng = latlng[1];
-                Intent intent = new Intent(Main_Activity.this, CompassActivity.class);
-                intent.putExtra("LatLocationKey", lat);
-                intent.putExtra(LngLocationKey, lng);
-                System.out.println("intent To Compass lat: " + lat);
-                startActivity(intent);
-                }
-            }
-        });
-
-        mbtn2 = (Button) findViewById(R.id.btn2);
-        mbtn2.setOnClickListener(new View.OnClickListener() {
+        mPlacePickerBtn = (Button) findViewById(R.id.place_picker_btn);
+        mPlacePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startPlacePickerActivity();
+            }
+        });
+
+        mLaputaBtn = (ImageView) findViewById(R.id.laputa_btn);
+        mLaputaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main_Activity.this, CompassActivity.class);
+                intent.putExtra("LatLocationKey", mSelectedLatLong.latitude);
+                intent.putExtra("LngLocationKey", mSelectedLatLong.longitude);
+                startActivity(intent);
             }
         });
     }
@@ -95,7 +85,7 @@ public class Main_Activity extends Activity implements PlaceSelectionListener {
         }
     }
 
-
+    // this(onActivityResult) method is called after selecting place from PlacePicker.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
@@ -107,28 +97,11 @@ public class Main_Activity extends Activity implements PlaceSelectionListener {
     private void displaySelectedPlaceFromPlacePicker(Intent data) {
         Place placeSelected = PlacePicker.getPlace(data, this);
 
-        mAdressSelected = placeSelected.getAddress().toString();
-        String pickedName = placeSelected.getName().toString();
-
-        TextView enterCurrentLocation = (TextView) findViewById(R.id.show_selected_location);
-        enterCurrentLocation.setText(pickedName);
-    }
-
-    public static double[] getLocationFromPlaceName(Context context, String name) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        try {
-            List<Address> location = geocoder.getFromLocationName(name, 1);
-            if (location == null || location.size() < 1) {
-                return null;
-            }
-
-            Address address = location.get(0);
-            double[] latlng = {address.getLatitude(), address.getLongitude()};
-            return latlng;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        mSelectedPlaceName = placeSelected.getAddress().toString();
+        TextView selectedPlaceNameText = (TextView) findViewById(R.id.show_selected_place_name);
+        selectedPlaceNameText.setText(mSelectedPlaceName);
+        mSelectedLatLong =placeSelected.getLatLng();
+        Log.i(TAG,"PlacePicer selected Lat long : " +placeSelected.getLatLng());
     }
 
     /**
@@ -136,10 +109,8 @@ public class Main_Activity extends Activity implements PlaceSelectionListener {
      */
     @Override
     public void onPlaceSelected(Place place) {
-//        Log.i(TAG, "Place Selected: " + place.getName());
-
-        mAdressSelected = place.getAddress().toString();
-
+        Log.i(TAG, "Place Selected long : " + place.getLatLng());
+        mSelectedLatLong =place.getLatLng();
     }
 
     @Override

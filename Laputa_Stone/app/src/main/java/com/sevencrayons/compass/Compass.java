@@ -22,21 +22,21 @@ public class Compass implements SensorEventListener {
     private float[] mGeomagnetic = new float[3];
     private float azimuth = 0f;
     private float currectAzimuth = 0;
-    private double mEditedLocationlat;
-    private double mEditedLocationlng;
+    private double mSelectedPlacelat;
+    private double mSelectedPlacelng;
     private double mUserlocationlat;
     private double mUserlocationlng;
 
     // compass arrow to rotate
     public ImageView arrowView = null;
 
-    public Compass(Context context ,double editedlat,double editedlng, double userlocationlat ,double userlocationlng) {
+    public Compass(Context context ,double selectedPlaceLat,double selectedPlaceLng, double userlocationlat ,double userlocationlng) {
         sensorManager = (SensorManager) context
                 .getSystemService(Context.SENSOR_SERVICE);
         gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         msensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        this.mEditedLocationlat=editedlat;
-        this.mEditedLocationlng=editedlng;
+        this.mSelectedPlacelat=selectedPlaceLat;
+        this.mSelectedPlacelng=selectedPlaceLng;
         this.mUserlocationlat=userlocationlat;
         this.mUserlocationlng=userlocationlng;
     }
@@ -118,9 +118,7 @@ public class Compass implements SensorEventListener {
                 // Log.d(TAG, "azimuth (deg): " + azimuth);
 
 
-                azimuth -= bearing(mEditedLocationlat, mEditedLocationlng,mUserlocationlat, mUserlocationlng);
-//                azimuth -= bearing(mEditedLocationlat, mEditedLocationlng, 60.285216, -110.12483);
-//                azimuth -= bearing(yourlatitude, yourlongitude, latWhereToPoint, lngWhereToPoint);
+                azimuth -= bearing(mSelectedPlacelat, mSelectedPlacelng,mUserlocationlat, mUserlocationlng);
                 adjustArrow();
             }
         }

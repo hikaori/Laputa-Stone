@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+
 /**
  * Created by kaorihirata on 2017-07-04.
  */
@@ -23,17 +24,17 @@ public class GPSuserLocation extends Activity implements LocationListener {
     protected LocationManager locationManager;
     public double mUserLocationLat;
     public double mUserLocationLng;
+    private String TAG ="GPSuserLocation";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG,"Create");
         getlatlng();
     }
 
     public void getlatlng(){
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //  ARGUMENT('PROVIDER',minTime(minimum time interval between location updates in milliseconds),
-        //                              minDistance( minimum distance between location updates, in meters),LocationListener)
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
         ////// PERMISSION ////////
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);

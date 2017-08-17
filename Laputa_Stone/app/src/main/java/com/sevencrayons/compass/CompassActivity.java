@@ -20,20 +20,18 @@ public class CompassActivity extends ActionBarActivity {
         Bundle getBundle = null;
         getBundle = this.getIntent().getExtras();
         if (getBundle != null) {
-            final Double editedlat = getBundle.getDouble("LatLocationKey");
-            final Double editedlng = getBundle.getDouble("LngLocationKey");
-            System.out.println("Extra intent from EnterAdressActivity :lat" + editedlat + "=======================");
+            final Double selectedPlaceLat = getBundle.getDouble("LatLocationKey");
+            final Double selectedPlaceLng = getBundle.getDouble("LngLocationKey");
+            Log.i(TAG,"Bundle selectedLat: "+selectedPlaceLat +"Bundle selectedLng:  "+ selectedPlaceLng);
 
          //GET USER LOCATION
             GPSuserLocation getuserLocation = new GPSuserLocation();
-            System.out.println("GPSuserLocation==========================");
-
             double userLocationLat = getuserLocation.mUserLocationLat;
-            double userLocationlng = getuserLocation.mUserLocationLng;
-            System.out.println("GPSgetLat======="+userLocationLat+"===================");
+            double userLocationLng = getuserLocation.mUserLocationLng;
+            Log.i(TAG,"userLocationLat: "+userLocationLat +"userLocationLng:  "+ userLocationLng);
 
-//        compass = new Compass(this);
-            compass = new Compass(this, editedlat, editedlng,userLocationLat,userLocationlng);
+
+            compass = new Compass(this, selectedPlaceLat, selectedPlaceLng,49.2860,-123.1130);
             compass.arrowView = (ImageView) findViewById(R.id.main_image_hands);
         }
     }
