@@ -11,7 +11,7 @@
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp">
         <!--android:layout_marginTop="@dimen/margin_medium"-->
         <!--android:layout_marginBottom="@dimen/margin_medium">-->
@@ -28,7 +28,7 @@
     <Button
         android:id="@+id/place_picker_btn"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:textColor="#DEA303"
         android:background="#020C3C"
@@ -36,19 +36,18 @@
 
     <TextView
         android:id="@+id/show_selected_place_name"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="#fff"/>
 
     <ImageView
-        android:layout_marginTop="100dp"
         android:id="@+id/laputa_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/laputa_regular"/>
+        android:src="@drawable/laputa_land"/>
 
     <TextView
         android:id="@+id/addressErrorMSG"
