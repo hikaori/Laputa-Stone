@@ -15,7 +15,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 
-public class CompassActivity extends AppCompatActivity implements SensorEventListener {
+public class CompassActivity extends AppCompatActivity implements SensorEventListener,LocationService.Callback {
 
     private static final String TAG = "CompassActivity";
 
@@ -26,6 +26,9 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     private Location target = new Location("B");
     private LocationManager locationManager;
     private GeomagneticField geoField;
+    private double mUserLocationLat;
+    private double mUserLocationLng;
+    private LocationService mLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +48,14 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
             Log.i(TAG, "Bundle selectedLat: " + selectedPlaceLat + "Bundle selectedLng:  " + selectedPlaceLng);
 
             //GET USER LOCATION
-            GPSuserLocation getuserLocation = new GPSuserLocation();
-            //getuserLocation.onLocationChanged(location);
-            double userLocationLat = getuserLocation.mUserLocationLat;
-            double userLocationLng = getuserLocation.mUserLocationLng;
-            Log.i(TAG,"userLocationLat: "+userLocationLat +"userLocationLng:  "+ userLocationLng);
+            mLocationService = new LocationService(this,this);
+            mUserLocationLat = mLocationService.getUserLocationLat();
+            mUserLocationLng = mLocationService.getUserLocationLng();
+            Log.i(TAG,"mUserLocationLat :" + mUserLocationLat + "mUserLocationLng :" + mUserLocationLng );
 
-            location.setLatitude(54.903535);
-            location.setLongitude(23.979342);
+
+            location.setLatitude(49.276173);
+            location.setLongitude(-123.123450);
 
             target.setLatitude(selectedPlaceLat);
             target.setLongitude(selectedPlaceLng);
@@ -69,7 +72,6 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     @Override
     protected void onResume() {
         super.onResume();
-
         mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_GAME);
     }
@@ -120,5 +122,11 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
        // not in use
+    }
+
+    @Override
+    public void onLocationChanged(double lat, double lng) {
+        mUserLocationLat = lat;
+        mUserLocationLng = lng;
     }
 }
