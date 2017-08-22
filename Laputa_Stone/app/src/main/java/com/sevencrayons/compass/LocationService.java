@@ -8,13 +8,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 /**
  * Created by kaorihirata on 2017-08-18.
@@ -28,7 +23,7 @@ public class LocationService implements LocationListener {
     private Callback mCallback;
 
     interface Callback {
-        void onLocationChanged(double lat, double lng);
+        void onCallback(double lat, double lng);
     }
 
     LocationService(Activity activity, Callback callback) {
@@ -44,6 +39,7 @@ public class LocationService implements LocationListener {
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 99);
             } else {
                 // PERMISSION HAS BEEN GRANTED
+                Log.i("test", "requestLocationUpdates");
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
             }
     }
@@ -71,7 +67,7 @@ public class LocationService implements LocationListener {
         mUserLocationLat = location.getLatitude();
         mUserLocationLng = location.getLongitude();
         Log.i(TAG,"Latitude"+ location.getLatitude() + ", Longitude:" + location.getLongitude());
-        mCallback.onLocationChanged(mUserLocationLat,mUserLocationLat);
+        mCallback.onCallback(mUserLocationLat,mUserLocationLat);
     }
 
     public double getUserLocationLat() {

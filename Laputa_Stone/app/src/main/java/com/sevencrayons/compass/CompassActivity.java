@@ -15,7 +15,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 
-public class CompassActivity extends AppCompatActivity implements SensorEventListener,LocationService.Callback {
+public class CompassActivity extends AppCompatActivity implements SensorEventListener, LocationService.Callback {
 
     private static final String TAG = "CompassActivity";
 
@@ -48,14 +48,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
             Log.i(TAG, "Bundle selectedLat: " + selectedPlaceLat + "Bundle selectedLng:  " + selectedPlaceLng);
 
             //GET USER LOCATION
-            mLocationService = new LocationService(this,this);
-            mUserLocationLat = mLocationService.getUserLocationLat();
-            mUserLocationLng = mLocationService.getUserLocationLng();
-            Log.i(TAG,"mUserLocationLat :" + mUserLocationLat + "mUserLocationLng :" + mUserLocationLng );
-
-
-            location.setLatitude(49.276173);
-            location.setLongitude(-123.123450);
+            mLocationService = new LocationService(this, this);
 
             target.setLatitude(selectedPlaceLat);
             target.setLongitude(selectedPlaceLng);
@@ -125,8 +118,12 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
     }
 
     @Override
-    public void onLocationChanged(double lat, double lng) {
+    public void onCallback(double lat, double lng) {
         mUserLocationLat = lat;
         mUserLocationLng = lng;
+        Log.i(TAG,"mUserLocationLat :" + mUserLocationLat + "mUserLocationLng :" + mUserLocationLng );
+
+        location.setLatitude(mUserLocationLat);
+        location.setLongitude(mUserLocationLng);
     }
 }
