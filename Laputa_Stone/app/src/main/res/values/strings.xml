@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Compass</string>
+    <string name="app_name">Laputastone</string>
 
     <string name="action_settings">Settings</string>
 
-    <string name="compass_dial">Compass Dial</string>
-    <string name="compass_hands">Compass Hands</string>
+    <string name="compass_dial">Laputastone Dial</string>
+    <string name="compass_hands">Laputastone Hands</string>
 
 
 </resources>

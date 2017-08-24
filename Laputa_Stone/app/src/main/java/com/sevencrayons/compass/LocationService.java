@@ -67,7 +67,7 @@ public class LocationService implements LocationListener {
         mUserLocationLat = location.getLatitude();
         mUserLocationLng = location.getLongitude();
         Log.i(TAG,"Latitude"+ location.getLatitude() + ", Longitude:" + location.getLongitude());
-        mCallback.onCallback(mUserLocationLat,mUserLocationLat);
+        mCallback.onCallback(mUserLocationLat,mUserLocationLng);
     }
 
     public double getUserLocationLat() {

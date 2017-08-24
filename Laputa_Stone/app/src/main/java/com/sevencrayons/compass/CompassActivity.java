@@ -52,11 +52,13 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
             target.setLatitude(selectedPlaceLat);
             target.setLongitude(selectedPlaceLng);
+//            target.setLatitude(49.286149);
+//            target.setLongitude(-123.111629);
 
             geoField = new GeomagneticField(
-                    (float) location.getLatitude(),
-                    (float) location.getLongitude(),
-                    (float) location.getAltitude(),
+                    Double.valueOf(location.getLatitude()).floatValue(),
+                    Double.valueOf(location.getLongitude()).floatValue(),
+                    Double.valueOf(location.getAltitude()).floatValue(),
                     System.currentTimeMillis());
         }
 
@@ -122,8 +124,10 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
         mUserLocationLat = lat;
         mUserLocationLng = lng;
         Log.i(TAG,"mUserLocationLat :" + mUserLocationLat + "mUserLocationLng :" + mUserLocationLng );
-
+        //SET USER LOCATION
         location.setLatitude(mUserLocationLat);
         location.setLongitude(mUserLocationLng);
+//        location.setLatitude(49.285083);
+//        location.setLongitude(-123.113205);
     }
 }
