@@ -9,7 +9,7 @@
  
 
 # Laputa-Stone
-Directting people to the specific place without reading map.<br>
+Directing people to the specific place without reading a map.<br>
 Like The girl is directed to  the Castle in Castle in the Sky of Ghibli.
 
 ![laputa_stone](https://user-images.githubusercontent.com/23109342/29856787-f6066c80-8d09-11e7-9ca9-0d1d6cf22d17.gif)
